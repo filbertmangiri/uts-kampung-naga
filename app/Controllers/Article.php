@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 
 use App\Models\Article\ArticleModel;
+use App\Models\Article\CategoryModel;
 use App\Models\Article\LikeModel;
 use App\Models\Article\CommentModel;
 use App\Models\Article\CommentLikeModel;
@@ -30,6 +31,16 @@ class Article extends BaseController
 		$data = [
 			'title' => 'Beranda',
 			'articles' => $this->articleModel->articleGet()
+		];
+
+		return view('articles/index', $data);
+	}
+
+	public function category($categorySlug)
+	{
+		$data = [
+			'title' => 'Beranda',
+			'articles' => $this->articleModel->articleGetByCategory($categorySlug)
 		];
 
 		return view('articles/index', $data);

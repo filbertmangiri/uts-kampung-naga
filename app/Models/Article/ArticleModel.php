@@ -52,6 +52,15 @@ class ArticleModel extends Model
 		return $this->where('id', $articleID)->first();
 	}
 
+	public function articleGetByCategory($categorySlug = '')
+	{
+		if (empty($categorySlug)) {
+			return $this->findAll();
+		}
+
+		return $this->where('category_slug', $categorySlug)->findAll();
+	}
+
 	public function articleInsert($post, $files)
 	{
 		$error_message = '';

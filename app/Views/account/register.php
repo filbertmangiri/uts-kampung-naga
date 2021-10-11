@@ -210,7 +210,7 @@
 					lessThanToday: true
 				},
 				profile_picture: {
-					required: true,
+					// required: true,
 					fileTypeImage: true,
 					extension: 'jpg,jpeg,png',
 					accept: 'image/*'
