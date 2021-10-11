@@ -55,7 +55,6 @@
 <?= $this->section('scripts'); ?>
 <!-- jQuery Validation -->
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js" integrity="sha256-TAzGN4WNZQPLqSYvi+dXQMKehTYFoVOnveRqbi42frA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/localization/messages_id.min.js" integrity="sha256-vgrTuBfeM5qbY7HY/kmyOSHg2au9FXiRq5/6A7RMNms=" crossorigin="anonymous"></script>
 <script src="https://www.google.com/recaptcha/api.js"></script>
 
 <script type="text/javascript">

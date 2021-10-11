@@ -56,17 +56,6 @@
 					</div>
 				<?php endif; ?>
 
-				<div class="container">
-					<div class="kv-avatar">
-						<div class="file-loading">
-							<input id="profilePicture" name="profile_picture" type="file" required>
-						</div>
-					</div>
-					<div class="kv-avatar-hint">
-						<small>Select file < 1500 KB</small>
-					</div>
-				</div>
-
 				<div class="row mb-3">
 					<div class="col-12 col-sm-6 mb-2">
 						<div class="form-floating">
@@ -124,6 +113,11 @@
 				</div>
 
 				<div class="form-group mb-3">
+					<label for="profilePicture" class="form-label">Foto Profil</label>
+					<input class="form-control" type="file" id="profilePicture" name="profile_picture">
+				</div>
+
+				<div class="form-group mb-3">
 					<div class="g-recaptcha" data-sitekey="<?= RECAPTCHA_SITE; ?>" data-callback="recaptchaCallback">
 					</div>
 					<input type="hidden" class="hiddenRecaptcha required" name="hidden_recaptcha" id="hiddenRecaptcha">
@@ -149,30 +143,6 @@
 	};
 
 	$(document).ready(function() {
-		let btnCust = '<button type="button" class="btn btn-secondary" title="Add picture tags" ' +
-			'onclick="alert(\'Call your custom code here.\')">' +
-			'<i class="bi-tag"></i>' +
-			'</button>';
-
-		$("#profilePicture").fileinput({
-			overwriteInitial: true,
-			maxFileSize: 1500,
-			showClose: false,
-			showCaption: false,
-			showBrowse: false,
-			browseOnZoneClick: true,
-			removeLabel: '',
-			removeIcon: '<i class="bi-x-lg"></i>',
-			removeTitle: 'Cancel or reset changes',
-			elErrorContainer: '#kv-avatar-errors-2',
-			msgErrorClass: 'alert alert-block alert-danger',
-			defaultPreviewContent: '<img src="/samples/default-avatar-male.png" alt="Your Avatar"><h6 class="text-muted">Click to select</h6>',
-			layoutTemplates: {
-				main2: '{preview} ' + btnCust + ' {remove} {browse}'
-			},
-			allowedFileExtensions: ["jpg", "png", "gif"]
-		});
-
 		$.validator.addMethod('lettersOnly', function(value, element) {
 			return this.optional(element) || /^[A-Za-z áãâäàéêëèíîïìóõôöòúûüùçñ]+$/i.test(value);
 		});
@@ -192,137 +162,137 @@
 		$.validator.addMethod('fileTypeImage', function(value, element) {
 			return this.optional(element) || (element.files[0].size <= param * 1048576);
 		});
-	});
 
-	$('#registerForm').validate({
-		ignore: '.ignore',
+		$('#registerForm').validate({
+			ignore: '.ignore',
 
-		rules: {
-			first_name: {
-				required: true,
-				lettersOnly: true,
-				minlength: 2
-			},
-			last_name: {
-				required: true,
-				lettersOnly: true,
-				minlength: 2
-			},
-			email: {
-				required: true,
-				emailEx: true,
-				remote: {
-					url: '<?= base_url('register/emailcheck'); ?>',
-					type: 'post'
+			rules: {
+				first_name: {
+					required: true,
+					lettersOnly: true,
+					minlength: 2
+				},
+				last_name: {
+					required: true,
+					lettersOnly: true,
+					minlength: 2
+				},
+				email: {
+					required: true,
+					emailEx: true,
+					remote: {
+						url: '<?= base_url('register/emailcheck'); ?>',
+						type: 'post'
+					}
+				},
+				username: {
+					required: true,
+					noSpaceSymbol: true,
+					minlength: 5,
+					maxlength: 36,
+					remote: {
+						url: '<?= base_url('register/usernamecheck'); ?>',
+						type: 'post'
+					}
+				},
+				password: {
+					required: true,
+					minlength: 5
+				},
+				confirm_password: {
+					required: true,
+					minlength: 5,
+					equalTo: '#password'
+				},
+				birth_date: {
+					required: true,
+					dateISO: true,
+					lessThanToday: true
+				},
+				profile_picture: {
+					required: true,
+					fileTypeImage: true,
+					extension: 'jpg,jpeg,png',
+					accept: 'image/*'
+				},
+				gender: {
+					required: true,
+				},
+				hidden_recaptcha: {
+					required: function() {
+						return grecaptcha.getResponse() == '';
+					}
 				}
 			},
-			username: {
-				required: true,
-				noSpaceSymbol: true,
-				minlength: 5,
-				maxlength: 36,
-				remote: {
-					url: '<?= base_url('register/usernamecheck'); ?>',
-					type: 'post'
+
+			messages: {
+				first_name: {
+					required: 'Masukkan nama pertama',
+					lettersOnly: 'Hanya boleh huruf dan spasi',
+					minlength: 'Nama pertama minimal {0} karakter'
+				},
+				last_name: {
+					required: 'Masukkan nama terakhir',
+					lettersOnly: 'Hanya boleh huruf dan spasi',
+					minlength: 'Nama pertama minimal {0} karakter'
+				},
+				email: {
+					required: 'Masukkan Email',
+					emailEx: 'Format email tidak valid',
+					remote: 'Email telah digunakan'
+				},
+				username: {
+					required: 'Masukkan username',
+					noSpaceSymbol: 'Hanya boleh huruf, angka, dan garis bawah (_)',
+					minlength: 'Minimal huruf/angka username 5 karakter dan maksimal 32 karakter',
+					maxlength: 'Username sudah melebihi batas maksimal',
+					remote: 'Username sudah digunakan'
+				},
+				password: {
+					required: 'Masukkan kata sandi',
+					minlength: 'Minimal huruf/angka kata sandi 5 karakter'
+				},
+				confirm_password: {
+					required: 'Masukkan konfirmasi kata sandi',
+					minlength: 'Minimal huruf/angka kata sandi 5 karakter',
+					equalTo: 'Kata sandi tidak sesuai'
+				},
+				birth_date: {
+					required: 'Masukkan tanggal lahir',
+					dateISO: 'Format tanggal tidak valid',
+					lessThanToday: 'Tanggal lahir tidak valid'
+				},
+				profile_picture: {
+					extension: 'File yang diterima adalah jpg, jpeg, dan png',
+					filesize: ''
+				},
+				gender: {
+					required: 'Masukkan jenis kelamin',
 				}
 			},
-			password: {
-				required: true,
-				minlength: 5
+
+			errorElement: 'em',
+			errorPlacement: function(error, element) {
+				error.addClass('invalid-feedback');
+
+				if (element.prop('type') === 'radio') {
+					error.insertAfter(element.next('label'));
+				} else {
+					error.insertAfter(element);
+				}
 			},
-			confirm_password: {
-				required: true,
-				minlength: 5,
-				equalTo: '#password'
+			highlight: function(element, errorClass, validClass) {
+				$(element).addClass('is-invalid').removeClass('is-valid');
 			},
-			birth_date: {
-				required: true,
-				dateISO: true,
-				lessThanToday: true
+			unhighlight: function(element, errorClass, validClass) {
+				$(element).addClass('is-valid').removeClass('is-invalid');
 			},
-			image: {
-				required: true,
-				fileTypeImage: true,
-				extension: 'jpg,jpeg,png',
-				accept: 'image/*'
-			},
-			gender: {
-				required: true,
-			},
-			hidden_recaptcha: {
-				required: function() {
-					return grecaptcha.getResponse() == '';
+			submitHandler: function(form) {
+				if ($("#registerForm").valid()) {
+					form.submit();
 				}
 			}
-		},
-
-		messages: {
-			first_name: {
-				required: 'Masukkan nama pertama',
-				lettersOnly: 'Hanya boleh huruf dan spasi',
-				minlength: 'Nama pertama minimal {0} karakter'
-			},
-			last_name: {
-				required: 'Masukkan nama terakhir',
-				lettersOnly: 'Hanya boleh huruf dan spasi',
-				minlength: 'Nama pertama minimal {0} karakter'
-			},
-			email: {
-				required: 'Masukkan Email',
-				emailEx: 'Format email tidak valid',
-				remote: 'Email telah digunakan'
-			},
-			username: {
-				required: 'Masukkan username',
-				noSpaceSymbol: 'Hanya boleh huruf, angka, dan garis bawah (_)',
-				minlength: 'Minimal huruf/angka username 5 karakter dan maksimal 32 karakter',
-				maxlength: 'Username sudah melebihi batas maksimal',
-				remote: 'Username sudah digunakan'
-			},
-			password: {
-				required: 'Masukkan kata sandi',
-				minlength: 'Minimal huruf/angka kata sandi 5 karakter'
-			},
-			confirm_password: {
-				required: 'Masukkan konfirmasi kata sandi',
-				minlength: 'Minimal huruf/angka kata sandi 5 karakter',
-				equalTo: 'Kata sandi tidak sesuai'
-			},
-			birth_date: {
-				required: 'Masukkan tanggal lahir',
-				dateISO: 'Format tanggal tidak valid',
-				lessThanToday: 'Tanggal lahir tidak valid'
-			},
-			image: {
-				extension: 'File yang diterima adalah jpg, jpeg, dan png',
-				filesize: ''
-			},
-			gender: {
-				required: 'Masukkan jenis kelamin',
-			}
-		},
-
-		errorElement: 'em',
-		errorPlacement: function(error, element) {
-			error.addClass('invalid-feedback');
-
-			if (element.prop('type') === 'radio') {
-				error.insertAfter(element.next('label'));
-			} else {
-				error.insertAfter(element);
-			}
-		},
-		highlight: function(element, errorClass, validClass) {
-			$(element).addClass('is-invalid').removeClass('is-valid');
-		},
-		unhighlight: function(element, errorClass, validClass) {
-			$(element).addClass('is-valid').removeClass('is-invalid');
-		},
-		submitHandler: function(form) {
-			if ($("#registerForm").valid()) {
-				form.submit();
-			}
-		}
+		});
 	});
 </script>
 <?= $this->endSection(); ?>

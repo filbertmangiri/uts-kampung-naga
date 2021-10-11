@@ -2,6 +2,24 @@
 
 <?= $this->section('styles'); ?>
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<style>
+	@media only screen and (max-width: 650px) {
+		div.follow-scroll {
+			display: none;
+		}
+
+		div.maincontent {
+			width: 100%;
+		}
+	}
+
+	@media only screen and (min-width: 650px) {
+		div.maincontent {
+			float: left;
+			width: 55%;
+		}
+	}
+</style>
 <?= $this->endSection(); ?>
 
 <?= $this->section('content'); ?>
