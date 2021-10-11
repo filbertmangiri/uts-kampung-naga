@@ -15,10 +15,11 @@
 				<thead>
 					<tr>
 						<th>ID</th>
-						<!-- <th>Thumbnail</th> -->
 						<th>Judul</th>
 						<th>Kategori</th>
 						<th>Penulis</th>
+						<th>Tanggal Publikasi</th>
+						<th>Thumbnail</th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -30,6 +31,10 @@
 							<td><?= $key['title']; ?></td>
 							<td><?= $key['category']; ?></td>
 							<td><?= $key['author']; ?></td>
+							<td><?= $key['created_at']; ?></td>
+							<td>
+								<img src="<?= base_url('images/thumbnails/' . $key['thumbnail']); ?>" alt="<?= $key['title_slug']; ?>" class="img-fluid">
+							</td>
 							<td>
 								<a href="<?= base_url('admin/edit/' . $key['id']); ?>"><i class="fas fa-edit"></i></a>
 								<button onclick="articleDelete(<?= $key['id']; ?>);" class="fas fa-trash"></button>
