@@ -78,20 +78,12 @@ class Admin extends BaseController
 		return view('admin/edit', $data);
 	}
 
-	public function delete($id)
+	public function delete()
 	{
-		// $delete = $this->article->articleDelete($id);
-
-		// if ($delete) {
-		// 	session()->setFlashdata('warning', 'Deleted Article Successfully');
-		// 	return redirect()->to(b)
-		// }
-
 		$articleID = $this->request->getVar('articleID');
+
 		if ($articleID !== -1) {
 			$this->articleModel->articleDelete($articleID);
-
-			header('refresh: 0');
 		}
 
 		return redirect()->to(base_url('admin'));

@@ -37,7 +37,7 @@
 							</td>
 							<td>
 								<a href="<?= base_url('admin/edit/' . $key['id']); ?>"><i class="fas fa-edit"></i></a>
-								<button onclick="articleDelete(<?= $key['id']; ?>);" class="fas fa-trash"></button>
+								<a onclick="articleDelete(<?= $key['id']; ?>);"><i class="fas fa-trash"></i></a>
 							</td>
 						</tr>
 					<?php endforeach; ?>
@@ -61,7 +61,9 @@
 				<div id="articleTitle"></div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-danger" id="deleteButton">Hapus</button>
+				<form id="deleteForm">
+					<button type="submit" class="btn btn-danger">Hapus</button>
+				</form>
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
 			</div>
 		</div>
@@ -81,7 +83,7 @@
 	});
 
 	function articleDelete(id) {
-		$('#deleteButton').attr('onclick', '_articleDelete(' + id + ')');
+		$('#deleteForm').attr('onsubmit', '_articleDelete(' + id + ')');
 		$('#deleteModal').modal('show');
 	}
 
